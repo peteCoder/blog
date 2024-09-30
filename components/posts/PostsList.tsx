@@ -1,15 +1,37 @@
-import { postData } from "@/app/_data/dummy";
+"use client";
+
 import Post from "./Post";
 
-const PostsList = () => {
-    const data = postData;
+import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
+import { useEffect, useState } from "react";
+
+const PostsList = ({ blogs }: {blogs: BlogInterface[]}) => { // Here we receive the posts as props from the server.
+    const postData = blogs;
+
+    console.log(postData)
+
+    const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
+  if (!hasMounted) return null;
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 mt-8">
-            {postData.map((post, index) => (
-                <Post post={post} key={post._id} index={index} />
-            ))}
+        <div className="mt-16">
+            <ResponsiveMasonry
+                columnsCountBreakPoints={{350: 1, 550: 2}}
+            >
+                <Masonry>
+                    {/* Children */}
+                    {postData?.map((post, index) => (
+                        <Post post={post} key={post._id} />
+                    ))}
+                </Masonry>
+            </ResponsiveMasonry>
         </div>
+        
     )
 }
 

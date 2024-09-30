@@ -1,8 +1,12 @@
+import { fetchAllBlogs } from '@/actions/fetchAllBlogs';
+import PostsList from '@/components/posts/PostsList'
 import React from 'react'
 
-const BlogPage = () => {
+const BlogPage = async () => {
+  const allPosts = await fetchAllBlogs();
+  console.log(allPosts);
   return (
-    <div>Blog Page</div>
+    <PostsList blogs={allPosts} />
   )
 }
 
